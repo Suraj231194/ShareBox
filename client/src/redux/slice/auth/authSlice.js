@@ -38,9 +38,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
-        state.isLoggedIn = true;
-        localStorage.setItem('user', JSON.stringify(action.payload));
+        // Do not auto-login. Let user login manually to fetch correct structure.
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
