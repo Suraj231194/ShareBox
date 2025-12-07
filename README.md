@@ -68,29 +68,7 @@ Live Demo (Coming Soon) | Powered by MERN + AWS
 - **QRCode** (for QR generation)
 - **Nodemailer** (for potential email sharing)
 
----
 
-## 📸 Screenshots
-
-### 👤 User Dashboard
-
-![User Dashboard](./client/src/assets/screenshots/user_dashboard.png)
-
-### 👥 Guest Dashboard
-
-![Guest Dashboard](./client/src/assets/screenshots/dashboard.png)
-
-### 📤 File Upload Panel
-
-![File Uploaded](./client/src/assets/screenshots/upload.png)
-
-### 🔗 File Share Options
-
-![File Share](./client/src/assets/screenshots/share.png)
-
-### 🔍 File Preview Window
-
-![File Preview](./client/src/assets/screenshots/file_preview.png)
 
 ## 📂 Project Structure
 
