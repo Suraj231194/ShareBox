@@ -28,46 +28,46 @@ const DownloadPage = () => {
   //     })
   //     .catch((err) => setError(err.message));
   // }, [shortCode]);
-   useEffect(() => {
-  const controller = new AbortController();
+  useEffect(() => {
+    const controller = new AbortController();
 
-  const fetchFile = async () => {
-    try {
-      const res = await fetch(`http://localhost:6600/api/files/f/${shortCode}`, {
-        signal: controller.signal,
-      });
+    const fetchFile = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/files/f/${shortCode}`, {
+          signal: controller.signal,
+        });
 
-      if (!res.ok) throw new Error("File not found");
+        if (!res.ok) throw new Error("File not found");
 
-      const data = await res.json();
-      setFile(data);
-      setIsProtected(data.isPasswordProtected);
-      setIsLoading(false);
+        const data = await res.json();
+        setFile(data);
+        setIsProtected(data.isPasswordProtected);
+        setIsLoading(false);
 
-      if (data.isPasswordProtected) {
-        toast.info("🔒 This file is password protected. Please enter the password.");
+        if (data.isPasswordProtected) {
+          toast.info("🔒 This file is password protected. Please enter the password.");
+        }
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          setError(err.message);
+        }
       }
-    } catch (err) {
-      if (err.name !== "AbortError") {
-        setError(err.message);
-      }
-    }
-  };
+    };
 
-  fetchFile();
+    fetchFile();
 
-  // cleanup to cancel if component unmounts or re-renders
-  return () => controller.abort();
-}, [shortCode]);
+    // cleanup to cancel if component unmounts or re-renders
+    return () => controller.abort();
+  }, [shortCode]);
 
   const handleDownload = () => {
-  const link = document.createElement('a');
-  link.href = file.downloadUrl;
-  link.setAttribute('download', file.name); // optional; browser may ignore if headers are set
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
+    const link = document.createElement('a');
+    link.href = file.downloadUrl;
+    link.setAttribute('download', file.name); // optional; browser may ignore if headers are set
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
 
 
@@ -80,7 +80,7 @@ const DownloadPage = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:6600/api/files/verifyFilePassword`, {
+      const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/files/verifyFilePassword`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ shortCode, password }),
@@ -104,50 +104,50 @@ const DownloadPage = () => {
 
   return (
     <div className="w-full max-w-screen-lg mx-auto bg-[var(--bg-color)] rounded shadow-md p-4 sm:p-6 flex flex-col gap-6 lg:flex-row">
-      
+
       {/* Left Column */}
       <div className="w-full lg:w-2/3 flex flex-col gap-4">
         <p className="text-[var(--text-color)] text-sm sm:text-base">
           <strong>File Name:</strong> {file.name}
         </p>
         <div className="w-full">
-  <h2 className="text-lg font-semibold text-[var(--primary-text)] mb-2">File Preview</h2>
+          <h2 className="text-lg font-semibold text-[var(--primary-text)] mb-2">File Preview</h2>
 
-  {/* Protected Message */}
-  {isProtected && !isVerified ? (
-    <div className="w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-400 p-6 rounded bg-gray-100 dark:bg-gray-800 text-center">
-      <img
-        src="/locked-file.svg" // Replace with your actual placeholder image path
-        alt="Protected File"
-        className="w-32 h-32 mb-4"
-      />
-      <p className="text-gray-700 dark:text-gray-200 text-base">
-        🔒 This file is password protected. Please verify to preview or download.
-      </p>
-    </div>
-  ) : (
-    <>
-      {file.type.startsWith("image/") && (
-        <img src={file.path} alt={file.name} className="w-full h-auto rounded mb-4" />
-      )}
-      {file.type.startsWith("video/") && (
-        <video controls className="w-full h-auto rounded mb-4">
-          <source src={file.path} type={file.type} />
-          Your browser does not support the video tag.
-        </video>
-      )}
-      {file.type.startsWith("audio/") && (
-        <audio controls className="w-full h-auto rounded mb-4">
-          <source src={file.path} type={file.type} />
-          Your browser does not support the audio element.
-        </audio>
-      )}
-      {file.type === "application/pdf" && (
-        <iframe src={file.path} title="PDF Preview" className="w-full h-[400px] rounded mb-4"></iframe>
-      )}
-    </>
-  )}
-</div>
+          {/* Protected Message */}
+          {isProtected && !isVerified ? (
+            <div className="w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-400 p-6 rounded bg-gray-100 dark:bg-gray-800 text-center">
+              <img
+                src="/locked-file.svg" // Replace with your actual placeholder image path
+                alt="Protected File"
+                className="w-32 h-32 mb-4"
+              />
+              <p className="text-gray-700 dark:text-gray-200 text-base">
+                🔒 This file is password protected. Please verify to preview or download.
+              </p>
+            </div>
+          ) : (
+            <>
+              {file.type.startsWith("image/") && (
+                <img src={file.path} alt={file.name} className="w-full h-auto rounded mb-4" />
+              )}
+              {file.type.startsWith("video/") && (
+                <video controls className="w-full h-auto rounded mb-4">
+                  <source src={file.path} type={file.type} />
+                  Your browser does not support the video tag.
+                </video>
+              )}
+              {file.type.startsWith("audio/") && (
+                <audio controls className="w-full h-auto rounded mb-4">
+                  <source src={file.path} type={file.type} />
+                  Your browser does not support the audio element.
+                </audio>
+              )}
+              {file.type === "application/pdf" && (
+                <iframe src={file.path} title="PDF Preview" className="w-full h-[400px] rounded mb-4"></iframe>
+              )}
+            </>
+          )}
+        </div>
 
         <p className="text-[var(--text-color)] text-sm">
           <strong>Uploaded by:</strong> {file.uploadedBy}
@@ -188,11 +188,11 @@ const DownloadPage = () => {
         {/* Download Button */}
         {(!isProtected || isVerified) && (
           <button
-  onClick={handleDownload}
-  className="mt-4 w-full bg-green-600 text-white text-center px-4 py-2 rounded hover:bg-green-700"
->
-  ⬇️ Download
-</button>
+            onClick={handleDownload}
+            className="mt-4 w-full bg-green-600 text-white text-center px-4 py-2 rounded hover:bg-green-700"
+          >
+            ⬇️ Download
+          </button>
 
         )}
       </div>
