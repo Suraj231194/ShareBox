@@ -1,5 +1,5 @@
-# Use official Node.js image
-FROM node:18-alpine
+# Use official Node.js image from ECR Public to avoid Docker Hub rate limits
+FROM public.ecr.aws/docker/library/node:18-alpine
 
 # Set working directory
 WORKDIR /app

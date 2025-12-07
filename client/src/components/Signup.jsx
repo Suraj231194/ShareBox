@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { registerUser } from '../redux/slice/auth/authThunk';
 import CommonHeader from './CommonHeader';
+import { UserPlus, Mail, Lock, User } from 'lucide-react';
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const Signup = () => {
   return (
     <>
       <CommonHeader />
-      <div className="min-h-screen flex items-center justify-center bg-muted/20 relative overflow-hidden">
+      <div className="min-h-screen flex items-center justify-center bg-muted/20 relative overflow-hidden pt-20">
         {/* Background Decor */}
         <div className="absolute top-0 right-0 w-full h-full overflow-hidden z-0 pointer-events-none">
           <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-3xl opacity-50 animate-pulse"></div>
@@ -68,44 +69,65 @@ const Signup = () => {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <input
-                  className="w-full px-5 py-3 rounded-lg bg-muted/50 border border-input text-foreground placeholder-muted-foreground focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                  type="text"
-                  name="fullname"
-                  onChange={handleChange}
-                  value={formData.fullname}
-                  placeholder="Full Name"
-                  required
-                />
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="fullname">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                  <input
+                    className="w-full pl-10 pr-5 py-3 rounded-lg bg-muted/50 border border-input text-foreground placeholder-muted-foreground focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    type="text"
+                    id="fullname"
+                    name="fullname"
+                    onChange={handleChange}
+                    value={formData.fullname}
+                    placeholder="John Doe"
+                    required
+                  />
+                </div>
               </div>
-              <div>
-                <input
-                  className="w-full px-5 py-3 rounded-lg bg-muted/50 border border-input text-foreground placeholder-muted-foreground focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                  type="email"
-                  name="email"
-                  onChange={handleChange}
-                  value={formData.email}
-                  placeholder="Email Address"
-                  required
-                />
+              <div className="space-y-2">
+                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="email">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                  <input
+                    className="w-full pl-10 pr-5 py-3 rounded-lg bg-muted/50 border border-input text-foreground placeholder-muted-foreground focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    type="email"
+                    id="email"
+                    name="email"
+                    onChange={handleChange}
+                    value={formData.email}
+                    placeholder="john@example.com"
+                    required
+                  />
+                </div>
               </div>
-              <div>
-                <input
-                  className="w-full px-5 py-3 rounded-lg bg-muted/50 border border-input text-foreground placeholder-muted-foreground focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                  type="password"
-                  name="password"
-                  onChange={handleChange}
-                  value={formData.password}
-                  placeholder="Password"
-                  required
-                />
+              <div className="space-y-2">
+                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor="password">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+                  <input
+                    className="w-full pl-10 pr-5 py-3 rounded-lg bg-muted/50 border border-input text-foreground placeholder-muted-foreground focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    type="password"
+                    id="password"
+                    name="password"
+                    onChange={handleChange}
+                    value={formData.password}
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-4 rounded-lg font-bold text-white bg-gradient-to-r from-primary to-purple-600 hover:opacity-90 transition-all shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2"
+                className="w-full py-4 rounded-lg font-bold text-white bg-gradient-to-r from-primary to-purple-600 hover:opacity-90 transition-all shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2 mt-6"
                 disabled={loading}
               >
                 {loading ? (
@@ -119,7 +141,7 @@ const Signup = () => {
                 ) : (
                   <>
                     <span>Sign Up</span>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                    <UserPlus className="w-5 h-5" />
                   </>
                 )}
               </button>
@@ -127,18 +149,18 @@ const Signup = () => {
 
             <p className="mt-8 text-sm text-center text-muted-foreground">
               Already have an account?{' '}
-              <a href="/login" className="text-primary font-semibold hover:underline">
+              <Link to="/login" className="text-primary font-semibold hover:underline">
                 Login
-              </a>
+              </Link>
             </p>
           </div>
 
           {/* Right Side - Image/Pattern */}
           <div className="hidden lg:flex w-1/2 bg-gradient-to-bl from-primary/10 to-purple-600/10 items-center justify-center relative p-12">
             <div className="absolute inset-0 bg-grid-black/[0.05] dark:bg-grid-white/[0.05]" />
-            <div className="relative z-10 text-center space-y-4">
-              <div className="w-64 h-64 bg-contain bg-center bg-no-repeat mx-auto animate-float"
-                style={{ backgroundImage: "url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')" }}>
+            <div className="relative z-10 text-center space-y-4 flex flex-col items-center">
+              <div className="p-6 bg-white rounded-full shadow-2xl mb-4 animate-float">
+                <UserPlus className="w-24 h-24 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-foreground">Join Our Community</h2>
               <p className="text-muted-foreground">Share seamlessly with PasteBox.</p>
